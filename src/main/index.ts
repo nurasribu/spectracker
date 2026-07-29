@@ -79,7 +79,7 @@ ipcMain.handle('save-pattern', async (_event, path: string, content: string) => 
 ipcMain.handle('list-samples', async () => {
   const sampleDirs = [
     join(__dirname, '../../resources/samples'),
-    join(homedir(), 'Projects/strudel-tracker/samples'),
+    join(homedir(), 'Projects/spectracker/samples'),
   ]
   const result: Record<string, { name: string; path: string }[]> = {}
   for (const dir of sampleDirs) {
@@ -134,7 +134,7 @@ ipcMain.handle('read-sample-file', async (_event, filePath: string) => {
 })
 
 ipcMain.handle('download-dirt-samples', async () => {
-  const samplesParent = join(homedir(), 'Projects/strudel-tracker/samples')
+  const samplesParent = join(homedir(), 'Projects/spectracker/samples')
   if (!existsSync(samplesParent)) await mkdir(samplesParent, { recursive: true })
 
   console.log('[download-dirt-samples] fetching strudel.json...')
@@ -197,7 +197,7 @@ ipcMain.handle('download-dirt-samples', async () => {
 })
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.strudel-tracker')
+  electronApp.setAppUserModelId('com.spectracker')
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

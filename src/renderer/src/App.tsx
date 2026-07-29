@@ -3,6 +3,7 @@ import { PatternEditor } from "./components/PatternEditor";
 import { PatternList } from "./components/PatternList";
 import { Transport } from "./components/Transport";
 import { SampleBrowser } from "./components/SampleBrowser";
+import { TrackerPanel } from "./components/TrackerPanel";
 import { playPattern, stopPattern, renderToWav, init } from "./lib/strudel";
 import { PatternNode } from "./lib/types";
 
@@ -12,7 +13,7 @@ function App() {
   const [currentPattern, setCurrentPattern] = useState<string>("");
   const [patternContent, setPatternContent] = useState<string>(
     `// Write your Strudel pattern here
-s("sawtooth").note("c4 e4 g4 c5").gain(".5 .4 .3 .6")
+note("c4 e4 g4 c5").s("sawtooth").gain(".5 .4 .3 .6")
 `
   );
   const [bpm, setBpm] = useState<number>(120);
@@ -20,6 +21,8 @@ s("sawtooth").note("c4 e4 g4 c5").gain(".5 .4 .3 .6")
   const [isRendering, setIsRendering] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<"patterns" | "samples">("patterns");
   const [renderDuration, setRenderDuration] = useState<number>(16);
+  const [trackerOpen, setTrackerOpen] = useState(false);
+  const [trackerHeight, setTrackerHeight] = useState(300);
 
   useEffect(() => {
     loadDefaultProject();
@@ -29,7 +32,7 @@ s("sawtooth").note("c4 e4 g4 c5").gain(".5 .4 .3 .6")
   async function loadDefaultProject() {
     try {
       const homeDir = await window.api.getHomeDir();
-      const defaultPath = `${homeDir}/Projects/strudel-tracker/patterns`;
+      const defaultPath = `${homeDir}/Projects/spectracker/patterns`;
       setProjectPath(defaultPath);
       await refreshPatterns(defaultPath);
     } catch (e) {
@@ -126,7 +129,16 @@ s("sawtooth").note("c4 e4 g4 c5").gain(".5 .4 .3 .6")
   return (
     <div className="app">
       <header className="header">
-        <h1>Strudel Tracker</h1>
+        <div className="header-left">
+          <h1>SpecTracker</h1>
+          <button
+            className={`tracker-toggle-btn ${trackerOpen ? 'active' : ''}`}
+            onClick={() => setTrackerOpen(!trackerOpen)}
+            title="Toggle tracker grid"
+          >
+            Tracker
+          </button>
+        </div>
         <Transport
           bpm={bpm}
           onBpmChange={setBpm}
@@ -179,6 +191,14 @@ s("sawtooth").note("c4 e4 g4 c5").gain(".5 .4 .3 .6")
           />
         </main>
       </div>
+      <TrackerPanel
+        currentCode={patternContent}
+        isOpen={trackerOpen}
+        onToggle={() => setTrackerOpen(!trackerOpen)}
+        onCodeChange={setPatternContent}
+        height={trackerHeight}
+        onHeightChange={setTrackerHeight}
+      />
     </div>
   );
 }

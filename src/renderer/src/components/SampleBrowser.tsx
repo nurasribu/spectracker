@@ -73,7 +73,7 @@ export function SampleBrowser() {
       {!samples.length && !downloading && (
         <div className="sample-hint">
           No local samples found. Put .wav files in
-          ~/Projects/strudel-tracker/samples/ or click "Get dirt-samples"
+          ~/Projects/spectracker/samples/ or click "Get dirt-samples"
           to download the standard sample pack for offline use.
         </div>
       )}

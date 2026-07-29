@@ -127,7 +127,19 @@ export async function playPattern(code: string) {
   if (!ready) await init();
   if (!repl) return;
   try {
-    await repl.evaluate(code, true);
+    const result = await repl.evaluate(code, true);
+    if (result && typeof result.queryArc === 'function') {
+      const events = result.queryArc(0, 1);
+      console.log('[debug] events:', events.length);
+      events.forEach((e: any, i: number) => {
+        console.log(`[debug] event ${i}:`, JSON.stringify(e.value), 'whole:', e.whole?.begin?.valueOf?.(), e.whole?.end?.valueOf?.(), 'part:', e.part?.begin?.valueOf?.(), e.part?.end?.valueOf?.());
+      });
+      const stateEvents = result.queryArc(0, 1, { _cps: 0.5, cyclist: 'cyclist' });
+      console.log('[debug] state events:', stateEvents.length);
+      stateEvents.forEach((e: any, i: number) => {
+        console.log(`[debug] state event ${i}:`, JSON.stringify(e.value));
+      });
+    }
   } catch (e) {
     console.error('playPattern error:', e);
   }

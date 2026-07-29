@@ -1,7 +1,7 @@
 {
-  "name": "strudel-tracker",
+  "name": "spectracker",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "Spectracker - a tracker-like live-coding environment",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
@@ -32,6 +32,7 @@
     "@strudel/tonal": "^1.2.6",
     "@strudel/transpiler": "^1.2.6",
     "@strudel/web": "^1.3.0",
+    "@strudel/webaudio": "^1.3.0",
     "codemirror": "^6.0.2"
   },
   "devDependencies": {
