@@ -1,4 +1,4 @@
-# strudel-tracker
+# spectracker
 
 An Electron application with React and TypeScript
 
